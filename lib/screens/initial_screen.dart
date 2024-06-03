@@ -1,8 +1,7 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:sam_maker/screens/login_screen.dart';
 import 'package:sam_maker/screens/register_scree.dart';
+import 'package:sam_maker/utils/colors.dart';
 
 class InitialScreen extends StatelessWidget {
   const InitialScreen({super.key});
@@ -13,7 +12,7 @@ class InitialScreen extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: AppColors.primaryColor,
       body: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -21,6 +20,7 @@ class InitialScreen extends StatelessWidget {
           children: [
               Center(
                 child: Container(
+                  margin: const EdgeInsets.only(bottom: 10.0),
                   child: Image.asset('lib/utils/assets/images/logo_sam.png'),
                 ),
               ),
@@ -30,11 +30,11 @@ class InitialScreen extends StatelessWidget {
               child: ElevatedButton(
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(
-                    Theme.of(context).colorScheme.secondary,
+                    AppColors.secondaryColor,
                   ),
                   side: MaterialStateProperty.all(
-                    BorderSide(
-                      color: Theme.of(context).primaryColor,
+                    const BorderSide(
+                      color: AppColors.secondaryColor,
                       width: 1,
                     ),
                   ),
@@ -51,14 +51,14 @@ class InitialScreen extends StatelessWidget {
                 child: Container(
                   width: screenWidth * 0.4,
                   alignment: Alignment.center,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
                     child: Text(
                       "Entrar",
                       style: TextStyle(
                         fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.onSecondary,
+                        fontWeight: FontWeight.normal,
+                        color: AppColors.primaryColor,
                       ),
                     ),
                   ),
@@ -71,11 +71,11 @@ class InitialScreen extends StatelessWidget {
               child: ElevatedButton(
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(
-                    Theme.of(context).colorScheme.secondary,
+                    AppColors.secondaryColor,
                   ),
                   side: MaterialStateProperty.all(
-                    BorderSide(
-                      color: Theme.of(context).primaryColor,
+                    const BorderSide(
+                      color: AppColors.secondaryColor,
                       width: 1,
                     ),
                   ),
@@ -92,14 +92,14 @@ class InitialScreen extends StatelessWidget {
                 child: Container(
                   width: screenWidth * 0.4,
                   alignment: Alignment.center,
-                  child: Padding(
+                  child: const Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       "Cadastrar",
                       style: TextStyle(
                         fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.onSecondary,
+                        fontWeight: FontWeight.normal,
+                        color: AppColors.primaryColor,
                       ),
                     ),
                   ),
