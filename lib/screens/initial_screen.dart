@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sam_maker/screens/login_screen.dart';
-import 'package:sam_maker/screens/register_scree.dart';
+import 'package:sam_maker/screens/register_screen.dart';
 import 'package:sam_maker/utils/colors.dart';
 
 class InitialScreen extends StatelessWidget {
