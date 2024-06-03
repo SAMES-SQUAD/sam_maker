@@ -21,5 +21,4 @@ flutter:
   uses-material-design: true
   assets:
     - 'lib/utils/assets/images/logo_sam.png'
-
-
+    - 'lib/utils/assets/images/mini_logo_sam.png'
