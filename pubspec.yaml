@@ -22,3 +22,4 @@ flutter:
   assets:
     - 'lib/utils/assets/images/logo_sam.png'
     - 'lib/utils/assets/images/mini_logo_sam.png'
+    - 'lib/utils/assets/images/sam_icon.png'
