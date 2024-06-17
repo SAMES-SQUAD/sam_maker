@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sam_maker/screens/menu_screen.dart';
+import 'package:sam_maker/services/DatabaseService.dart';
 import 'package:sam_maker/utils/colors.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -219,10 +220,21 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
-                  onPressed: () => Navigator.push(context,
-                      MaterialPageRoute(builder: (context) {
-                    return const MenuScreen();
-                  })),
+                  onPressed: () async {
+                    var checklogin =  await login(_emailController.text, _passwordController.text);
+
+                    if (checklogin == true) {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) {
+                        return const MenuScreen();
+                      }));
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Email ou senha incorretos.'),
+                        ),
+                      );
+                    }
+                  },
                   child: Container(
                     width: screenWidth * 0.4,
                     alignment: Alignment.center,
