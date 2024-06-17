@@ -13,52 +13,66 @@ class MenuScreen extends StatefulWidget {
 }
 
 class _MenuScreenState extends State<MenuScreen> {
-  int currentPageIndex = 0;
+  final ValueNotifier<int> _pageIndexNotifier = ValueNotifier<int>(0);
 
-  final List<Widget> _pages = [
-    HomeScreen(),
-    GamesScreen(),
-    FormScreen(),
-    ProfileScreen()
-  ];
+  @override
+  void dispose() {
+    _pageIndexNotifier.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final List<Widget> _pages = [
+      HomeScreen(pageIndexNotifier: _pageIndexNotifier),
+      const GamesScreen(),
+      const FormScreen(),
+      const ProfileScreen(),
+    ];
+
     return Scaffold(
-      bottomNavigationBar: NavigationBar(
-        onDestinationSelected: (int index) {
-          setState(() {
-            currentPageIndex = index;
-          });
+      bottomNavigationBar: ValueListenableBuilder<int>(
+        valueListenable: _pageIndexNotifier,
+        builder: (context, currentIndex, child) {
+          return NavigationBar(
+            onDestinationSelected: (int index) {
+              _pageIndexNotifier.value = index;
+            },
+            indicatorColor: AppColors.primaryColor,
+            selectedIndex: currentIndex,
+            destinations: const <Widget>[
+              NavigationDestination(
+                selectedIcon: Icon(Icons.home, color: AppColors.secondaryColor),
+                icon: Icon(Icons.home_outlined),
+                label: 'Início',
+              ),
+              NavigationDestination(
+                selectedIcon: Icon(Icons.play_arrow, color: AppColors.secondaryColor),
+                icon: Icon(Icons.play_arrow_outlined),
+                label: 'Jogos',
+              ),
+              NavigationDestination(
+                selectedIcon: Icon(Icons.library_books, color: AppColors.secondaryColor),
+                icon: Icon(Icons.library_books_outlined),
+                label: 'Formulário',
+              ),
+              NavigationDestination(
+                selectedIcon: Icon(Icons.supervised_user_circle, color: AppColors.secondaryColor),
+                icon: Icon(Icons.supervised_user_circle_outlined),
+                label: 'Perfil',
+              ),
+            ],
+          );
         },
-        indicatorColor: AppColors.primaryColor,
-        selectedIndex: currentPageIndex,
-        destinations: const <Widget>[
-          NavigationDestination(
-            selectedIcon: Icon(Icons.home, color: AppColors.secondaryColor),
-            icon: Icon(Icons.home_outlined),
-            label: 'Início',
-          ),
-          NavigationDestination(
-            selectedIcon: Icon(Icons.play_arrow, color: AppColors.secondaryColor),
-            icon: Icon(Icons.play_arrow_outlined),
-            label: 'Jogos',
-          ),
-          NavigationDestination(
-            selectedIcon: Icon(Icons.library_books, color: AppColors.secondaryColor),
-            icon: Icon(Icons.library_books_outlined),
-            label: 'Formulário',
-          ),
-          NavigationDestination(
-            selectedIcon: Icon(Icons.supervised_user_circle, color: AppColors.secondaryColor),
-            icon: Icon(Icons.supervised_user_circle_outlined),
-            label: 'Perfil',
-          ),
-        ],
       ),
-      body: IndexedStack(
-        index: currentPageIndex,
-        children: _pages,
+      body: ValueListenableBuilder<int>(
+        valueListenable: _pageIndexNotifier,
+        builder: (context, currentIndex, child) {
+          return IndexedStack(
+            index: currentIndex,
+            children: _pages,
+          );
+        },
       ),
     );
   }
