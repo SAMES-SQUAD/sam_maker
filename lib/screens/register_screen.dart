@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sam_maker/screens/login_screen.dart';
+import 'package:sam_maker/services/DatabaseService.dart';
 import 'package:sam_maker/utils/colors.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -10,9 +11,11 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  bool isLoading = false;
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
   bool _isPasswordVisible = false;
 
   @override
@@ -270,7 +273,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       margin: const EdgeInsets.only(top: 15.0),
                       child: TextFormField(
                         cursorColor: AppColors.primaryColor,
-                        controller: _passwordController,
+                        controller: _confirmPasswordController,
                         obscureText: !_isPasswordVisible,
                         style: const TextStyle(
                             color: AppColors.primaryColor, fontSize: 18.0),
@@ -343,6 +346,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           if (value == null || value.isEmpty) {
                             return 'Por favor, insira sua senha';
                           }
+                          if (value != _passwordController.text) {
+                            return 'As senhas não coincidem';
+                          }
                           return null;
                         },
                       ),
@@ -371,10 +377,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                   ),
-                  onPressed: () => Navigator.push(context,
-                      MaterialPageRoute(builder: (context) {
-                    return const LoginScreen();
-                  })),
+                  onPressed: () async {
+
+                    register(
+                      _emailController.text,
+                      _passwordController.text,
+                      _nameController.text,
+                    );
+
+                    // Define o que acontece quando o botão é pressionado
+                    setState(() {
+                      // Atualiza o estado da tela
+                      isLoading = true; // Define isLoading como true
+                    });
+
+                    // Função assíncrona para registrar o usuário
+                    await register(_emailController.text, _passwordController.text, _nameController.text);
+                    // Navega para a tela de login após o registro
+                    Navigator.push(context,
+                      MaterialPageRoute(
+                        builder: (context) => LoginScreen(),
+                      ),
+                    );
+
+                    // Exibe uma mensagem após o registro
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text('Usuário cadastrado com sucesso'),
+                      backgroundColor: Colors.green,
+                    ));
+
+                  },
+
                   child: Container(
                     width: screenWidth * 0.4,
                     alignment: Alignment.center,
