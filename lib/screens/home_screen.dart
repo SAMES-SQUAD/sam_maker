@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sam_maker/screens/info_game.dart';
 import 'package:sam_maker/utils/colors.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -146,7 +147,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           child: GestureDetector(
                             onTap: () {
-                              Navigator.pushNamed(context, game['route']!);
+                              // Navigator.pushNamed(context, game['route']!);
+                              Navigator.push(
+                                context, 
+                                MaterialPageRoute(builder: (context) => const InfoGame()
+                                ),
+                              );
                             },
                             child: Row(
                               children: [
