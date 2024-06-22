@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sam_maker/screens/login_screen.dart';
-import 'package:sam_maker/services/DatabaseService.dart';
+import 'package:sam_maker/services/database_service.dart';
 import 'package:sam_maker/utils/colors.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -391,8 +391,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       isLoading = true; // Define isLoading como true
                     });
 
-                    // Função assíncrona para registrar o usuário
-                    await register(_emailController.text, _passwordController.text, _nameController.text);
                     // Navega para a tela de login após o registro
                     Navigator.push(context,
                       MaterialPageRoute(
