@@ -10,15 +10,10 @@ void main() async{
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  
-void main() {
-
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  
-
   runApp(const MyApp());
 }
-
+  
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
