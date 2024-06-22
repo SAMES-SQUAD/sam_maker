@@ -39,20 +39,25 @@ logout() async {
 
 // Função para registrar um novo usuário.
 register(email, password, name) async {
-  // Inicializa o Firebase.
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  // Obtém a instância de FirebaseAuth.
-  FirebaseAuth auth = FirebaseAuth.instance;
-  // Cria um novo usuário com email e senha fornecidos.
-  var user = await auth.createUserWithEmailAndPassword(
-      email: email, password: password);
+  try{
+    // Inicializa o Firebase.
+    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+    // Obtém a instância de FirebaseAuth.
+    FirebaseAuth auth = FirebaseAuth.instance;
+    // Cria um novo usuário com email e senha fornecidos.
+    var user = await auth.createUserWithEmailAndPassword(
+        email: email, password: password);
 
-  // Chama a função para registrar as informações  do usuário no FireStore
-  registerInfo(
-    user.user!.uid,
-    name,
-    email,
-  );
+    // Chama a função para registrar as informações  do usuário no FireStore
+    registerInfo(
+      user.user!.uid,
+      name,
+      email,
+    );
+  } catch (e, stackTrace) {
+    print('$e');
+    print(stackTrace);
+  }
 }
 
 // Função para registrar as informações adicionais do usuário no Firestore.

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sam_maker/screens/menu_screen.dart';
-import 'package:sam_maker/services/DatabaseService.dart';
+import 'package:sam_maker/services/database_service.dart';
 import 'package:sam_maker/utils/colors.dart';
 
 class LoginScreen extends StatefulWidget {
