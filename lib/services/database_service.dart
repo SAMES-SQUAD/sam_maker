@@ -117,3 +117,60 @@ editUser(name) async {
     'name': name,
   });
 }
+
+
+// Função para obter todos os jogos cadastrados no Firestore.
+getAllGames() async {
+  // Inicializa o Firebase.
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // Obtém a instância do FirebaseFirestore.
+  FirebaseFirestore db = FirebaseFirestore.instance;
+  try {
+    // Obtém a coleção de games do Firestore.
+    var gamesCollection = await db.collection('Games').get();
+    // Cria uma lista para armazenar os jogos.
+    List<Map<String, dynamic>> games = [];
+    // Itera sobre cada documento na coleção.
+    for (var doc in gamesCollection.docs) {
+      // Adiciona cada jogo à lista de jogos.
+      games.add(doc.data());
+    }
+    // Retorna a lista de jogos.
+    return games;
+  } catch (e, stackTrace) {
+    print('$e');
+    print(stackTrace);
+    return [];
+  }
+}
+
+// Função para obter um jogo específico pelo título no Firestore.
+getGameByTitle(String title) async {
+  // Inicializa o Firebase.
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // Obtém a instância do FirebaseFirestore.
+  FirebaseFirestore db = FirebaseFirestore.instance;
+  try {
+    // Cria uma query para buscar jogos pelo título.
+    var querySnapshot = await db.collection('Games')
+        .where('game_title', isEqualTo: title)
+        .get();
+    // Verifica se há algum documento correspondente.
+    if (querySnapshot.docs.isNotEmpty) {
+      // Obtém os dados do primeiro jogo encontrado.
+      var gameData = querySnapshot.docs.first.data();
+      // Imprime os dados do jogo no console.
+      print('Game data: $gameData');
+      // Retorna os dados do jogo.
+      return gameData;
+    } else {
+      // Retorna null se nenhum jogo foi encontrado.
+      print('No game found with title: $title');
+      return null;
+    }
+  } catch (e, stackTrace) {
+    print('$e');
+    print(stackTrace);
+    return null;
+  }
+}
