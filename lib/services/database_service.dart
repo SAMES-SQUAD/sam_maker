@@ -104,7 +104,7 @@ deleteUser() async {
 }
 
 // Função para editar as informações do usuário no Firestore.
-editUser(name) async {
+editUser(name, email) async {
   // Inicializa o Firebase.
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // Obtém a instância de FirebaseAuth.
@@ -115,5 +115,6 @@ editUser(name) async {
   // Define as novas informações do usuário no Firestore.
   await db.collection('Users').doc(user.currentUser!.uid).set({
     'name': name,
+    'email': email,
   });
 }

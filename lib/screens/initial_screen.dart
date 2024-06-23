@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:sam_maker/screens/login_screen.dart';
 import 'package:sam_maker/screens/register_screen.dart';
 import 'package:sam_maker/utils/colors.dart';
@@ -13,6 +14,15 @@ class InitialScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: AppColors.primaryColor,
+      appBar: AppBar(
+        backgroundColor: AppColors.primaryColor,
+        toolbarHeight: 0,
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: AppColors.primaryColor,
+          systemNavigationBarColor:  AppColors.primaryColor
+        ),
+        automaticallyImplyLeading: false,
+      ),
       body: SafeArea(
         child: Center(
           child: Column(
