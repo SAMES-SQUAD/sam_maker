@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:sam_maker/screens/login_screen.dart';
 import 'package:sam_maker/services/database_service.dart';
 import 'package:sam_maker/utils/colors.dart';
@@ -29,6 +30,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
       },
       child: Scaffold(
         backgroundColor: AppColors.secondaryColor,
+        appBar: AppBar(
+          backgroundColor: AppColors.secondaryColor,
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: AppColors.primaryColor,
+          systemNavigationBarColor:  AppColors.primaryColor
+        ),
+      ),
         body: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,

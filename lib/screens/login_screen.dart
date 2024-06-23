@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:sam_maker/screens/menu_screen.dart';
 import 'package:sam_maker/services/database_service.dart';
 import 'package:sam_maker/utils/colors.dart';
@@ -25,6 +26,13 @@ class _LoginScreenState extends State<LoginScreen> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: AppColors.secondaryColor,
+          systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarColor: AppColors.primaryColor,
+            systemNavigationBarColor:  AppColors.primaryColor
+          ),
+        ),
         backgroundColor: AppColors.secondaryColor,
         body: Center(
           child: Column(
@@ -221,7 +229,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   onPressed: () async {
-                    var checklogin =  await login(_emailController.text, _passwordController.text);
+                    var checklogin = await login(
+                        _emailController.text, _passwordController.text);
 
                     if (checklogin == true) {
                       Navigator.push(context, MaterialPageRoute(builder: (context) {
