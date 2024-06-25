@@ -1,6 +1,7 @@
 import 'package:easy_search_bar/easy_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sam_maker/services/database_service.dart';
 import 'package:sam_maker/utils/colors.dart';
 
 class GamesScreen extends StatefulWidget {
@@ -92,6 +93,47 @@ class _GamesScreenState extends State<GamesScreen> {
                     },
                   ),
                 ),
+              // Button
+              Container(
+                margin: const EdgeInsets.only(top: 25.0),
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(
+                      AppColors.primaryColor,
+                    ),
+                    side: MaterialStateProperty.all(
+                      const BorderSide(
+                        color: AppColors.secondaryColor,
+                        width: 2,
+                      ),
+                    ),
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                  ),
+                  onPressed: () async {
+                    var id = '2H0Drs7qtC887RDi6Ieo';
+                    getGameByTitle(id);
+                  },
+                  child: Container(
+                    width: screenWidth * 0.4,
+                    alignment: Alignment.center,
+                    child: const Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Text(
+                        "Entrar",
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.normal,
+                          color: AppColors.secondaryColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
