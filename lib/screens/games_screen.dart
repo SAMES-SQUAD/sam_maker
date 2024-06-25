@@ -1,6 +1,7 @@
 import 'package:easy_search_bar/easy_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sam_maker/services/database_service.dart';
 import 'package:sam_maker/utils/colors.dart';
 
 class GamesScreen extends StatefulWidget {
@@ -26,6 +27,10 @@ class _GamesScreenState extends State<GamesScreen> {
     return _suggestions.where((element) {
       return element.toLowerCase().contains(searchValue.toLowerCase());
     }).toList();
+  }
+
+  Future<Map<String, dynamic>?> _fetchGameByTitle(String title) async {
+    return await getGameByTitle(title);
   }
 
   @override
@@ -68,30 +73,76 @@ class _GamesScreenState extends State<GamesScreen> {
               ),
               if (searchValue.isNotEmpty)
                 Expanded(
-                  child: FutureBuilder<List<String>>(
-                    future: _fetchSuggestions(searchValue),
+                  child: FutureBuilder<Map<String, dynamic>?>(
+                    future: _fetchGameByTitle(searchValue),
                     builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
                         return Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        return Center(child: Text('Erro ao buscar o jogo'));
+                      } else if (!snapshot.hasData || snapshot.data == null) {
+                        return Center(child: Text('Jogo não encontrado'));
+                      } else {
+                        final gameData = snapshot.data!;
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Título: ${gameData['game_title']}',
+                              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              'Descrição: ${gameData['description'] ?? 'Sem descrição'}',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          ]
+                        );
                       }
-                      final suggestions = snapshot.data!;
-                      return ListView.builder(
-                        itemCount: suggestions.length,
-                        itemBuilder: (context, index) {
-                          final item = suggestions[index];
-                          return ListTile(
-                            title: Text(item),
-                            onTap: () {
-                              setState(() {
-                                searchValue = item;
-                              });
-                            },
-                          );
-                        },
-                      );
                     },
                   ),
                 ),
+              // Button
+              Container(
+                margin: const EdgeInsets.only(top: 25.0),
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(
+                      AppColors.primaryColor,
+                    ),
+                    side: MaterialStateProperty.all(
+                      const BorderSide(
+                        color: AppColors.secondaryColor,
+                        width: 2,
+                      ),
+                    ),
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                  ),
+                  onPressed: () async {
+                    var id = 'Rostos';
+                    getStepsByGame(id);
+                  },
+                  child: Container(
+                    width: screenWidth * 0.4,
+                    alignment: Alignment.center,
+                    child: const Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Text(
+                        "Entrar",
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.normal,
+                          color: AppColors.secondaryColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
