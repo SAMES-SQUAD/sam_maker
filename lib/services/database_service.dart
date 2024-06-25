@@ -150,3 +150,40 @@ getGameByTitle(String title) async {
     return null;
   }
 }
+
+// Retorna o step do jogo passado pelo nome.
+getStepsByGame(String title) async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  FirebaseFirestore db = FirebaseFirestore.instance;
+
+  try {
+    // Cria uma query para buscar jogos pelo título.
+    var querySnapshot = await db.collection('Games').where('game_title', isEqualTo: title).get();
+    
+    if (querySnapshot.docs.isNotEmpty) {
+      var gameDoc = querySnapshot.docs.first;
+      var gameData = gameDoc.data();
+      print('Game data: $gameData');
+
+      // Obter os passos associados a esse jogo.
+      var stepsCollection = await db.collection('Games').doc(gameDoc.id).collection('Steps').get();
+      List<Map<String, dynamic>> steps = [];
+
+      for (var stepDoc in stepsCollection.docs) {
+        steps.add(stepDoc.data());
+        print('Step: ${stepDoc.data()}');
+      }
+
+      gameData['steps'] = steps;
+      return gameData;
+    
+    } else {
+      print('No game found with title: $title');
+      return null;
+    }
+  } catch (e, stackTrace) {
+    print('$e');
+    print(stackTrace);
+    return null;
+  }
+}

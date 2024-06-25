@@ -29,6 +29,10 @@ class _GamesScreenState extends State<GamesScreen> {
     }).toList();
   }
 
+  Future<Map<String, dynamic>?> _fetchGameByTitle(String title) async {
+    return await getGameByTitle(title);
+  }
+
   @override
   Widget build(BuildContext context) {
     
@@ -69,27 +73,32 @@ class _GamesScreenState extends State<GamesScreen> {
               ),
               if (searchValue.isNotEmpty)
                 Expanded(
-                  child: FutureBuilder<List<String>>(
-                    future: _fetchSuggestions(searchValue),
+                  child: FutureBuilder<Map<String, dynamic>?>(
+                    future: _fetchGameByTitle(searchValue),
                     builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
                         return Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        return Center(child: Text('Erro ao buscar o jogo'));
+                      } else if (!snapshot.hasData || snapshot.data == null) {
+                        return Center(child: Text('Jogo não encontrado'));
+                      } else {
+                        final gameData = snapshot.data!;
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Título: ${gameData['game_title']}',
+                              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              'Descrição: ${gameData['description'] ?? 'Sem descrição'}',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          ]
+                        );
                       }
-                      final suggestions = snapshot.data!;
-                      return ListView.builder(
-                        itemCount: suggestions.length,
-                        itemBuilder: (context, index) {
-                          final item = suggestions[index];
-                          return ListTile(
-                            title: Text(item),
-                            onTap: () {
-                              setState(() {
-                                searchValue = item;
-                              });
-                            },
-                          );
-                        },
-                      );
                     },
                   ),
                 ),
@@ -114,8 +123,8 @@ class _GamesScreenState extends State<GamesScreen> {
                     ),
                   ),
                   onPressed: () async {
-                    var id = '2H0Drs7qtC887RDi6Ieo';
-                    getGameByTitle(id);
+                    var id = 'Rostos';
+                    getStepsByGame(id);
                   },
                   child: Container(
                     width: screenWidth * 0.4,
