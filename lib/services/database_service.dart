@@ -117,7 +117,7 @@ getAllGames() async {
 
     }
     // Retorna a lista de jogos.
-    print(games);
+    // print(games);
     return games;
   } catch (e, stackTrace) {
     print('$e');
@@ -132,23 +132,38 @@ getGameByTitle(String title) async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FirebaseFirestore db = FirebaseFirestore.instance;
   try {
-    // Cria uma query para buscar jogos pelo título.
+    String normalizedTitle = normalizeStringForSearch(title);
+
     var querySnapshot = await db.collection('Games')
-        .where('game_title', isEqualTo: title)
+        .where('game_title_normalized', isGreaterThanOrEqualTo: normalizedTitle)
+        .where('game_title_normalized', isLessThan: normalizedTitle + 'z')
         .get();
+
     if (querySnapshot.docs.isNotEmpty) {
-      var gameData = querySnapshot.docs.first.data();
-      print('Game data: $gameData');
-      return gameData;
+      List<Map<String, dynamic>> gamesList = [];
+      querySnapshot.docs.forEach((doc) {
+        gamesList.add(doc.data());
+      });
+      return gamesList;
     } else {
       print('No game found with title: $title');
-      return null;
+      return [];
     }
   } catch (e, stackTrace) {
     print('$e');
     print(stackTrace);
-    return null;
+    return [];
   }
+}
+
+String normalizeStringForSearch(String input) {
+  return input.toLowerCase().replaceAll(RegExp(r'[àáâãäåAÁÀÂÄ]'), 'a')
+                             .replaceAll(RegExp(r'[èéêëEÉÈÊ]'), 'e')
+                             .replaceAll(RegExp(r'[ìíîïIÌÍÎ]'), 'i')
+                             .replaceAll(RegExp(r'[òóôõöOÓÒÔÕ]'), 'o')
+                             .replaceAll(RegExp(r'[ùúûüUÚÙÛ]'), 'u')
+                             .replaceAll(RegExp(r'[ñÑN]'), 'n')
+                             .replaceAll(RegExp(r'[çÇC]'), 'c');
 }
 
 // Retorna o step do jogo passado pelo nome.
@@ -157,24 +172,21 @@ getStepsByGame(String title) async {
   FirebaseFirestore db = FirebaseFirestore.instance;
 
   try {
-    // Cria uma query para buscar jogos pelo título.
     var querySnapshot = await db.collection('Games').where('game_title', isEqualTo: title).get();
     
     if (querySnapshot.docs.isNotEmpty) {
       var gameDoc = querySnapshot.docs.first;
       var gameData = gameDoc.data();
-      print('Game data: $gameData');
+      // print('Game data: $gameData');
 
-      // Obter os passos associados a esse jogo.
       var stepsCollection = await db.collection('Games').doc(gameDoc.id).collection('Steps').get();
       List<Map<String, dynamic>> steps = [];
 
       for (var stepDoc in stepsCollection.docs) {
         steps.add(stepDoc.data());
-        print('Step: ${stepDoc.data()}');
       }
 
-      gameData['steps'] = steps;
+      gameData['Steps'] = steps;
       return gameData;
     
     } else {
@@ -183,7 +195,6 @@ getStepsByGame(String title) async {
     }
   } catch (e, stackTrace) {
     print('$e');
-    print(stackTrace);
     return null;
   }
 }
