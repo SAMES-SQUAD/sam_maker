@@ -187,3 +187,20 @@ getStepsByGame(String title) async {
     return null;
   }
 }
+
+
+
+//pra teste
+//List respostaUsuario = ['Socialização', 'Coordenação motora'];
+
+jogoRecomendado(respostaUsuario) async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  FirebaseFirestore db = FirebaseFirestore.instance;
+  
+  QuerySnapshot gamesSnapshot = await db.collection('Games').where('tags', arrayContainsAny: respostaUsuario).get();
+
+  print(gamesSnapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList());
+
+  return gamesSnapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
+
+}

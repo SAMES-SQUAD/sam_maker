@@ -33,6 +33,7 @@ class _GamesScreenState extends State<GamesScreen> {
     return await getGameByTitle(title);
   }
 
+
   @override
   Widget build(BuildContext context) {
     
@@ -93,7 +94,7 @@ class _GamesScreenState extends State<GamesScreen> {
                             ),
                             SizedBox(height: 10),
                             Text(
-                              'Descrição: ${gameData['description'] ?? 'Sem descrição'}',
+                              'Descrição: ${gameData['game_description']}',
                               style: TextStyle(fontSize: 16),
                             ),
                           ]
