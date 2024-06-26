@@ -92,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     "Olá, ${snapshot.data['name']}!",
                                     style: TextStyle(
                                       fontSize: 24.0,
-                                      fontWeight: FontWeight.bold,
+                                      fontWeight: FontWeight.w500,
                                       color: AppColors.primaryColor,
                                     ),
                                   ),
@@ -121,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   "Jogos recomendados",
                                   style: TextStyle(
                                     fontSize: 24.0,
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: FontWeight.w500,
                                     color: AppColors.primaryColor,
                                   ),
                                 ),
