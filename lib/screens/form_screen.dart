@@ -1,63 +1,146 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sam_maker/services/database_service.dart';
 import 'package:sam_maker/utils/colors.dart';
 
 class FormScreen extends StatefulWidget {
-  const FormScreen({super.key});
+  const FormScreen({Key? key}) : super(key: key);
 
   @override
   State<FormScreen> createState() => _FormScreenState();
 }
 
 class _FormScreenState extends State<FormScreen> {
-  int _index = 0;
+  // Lista para armazenar os materiais selecionados pelo usuário
+  List<String> selectedMaterials = [];
+  List<String> selectedAreas = [];
+
+  // Listas de opções de materiais e áreas
+  final List<String> materials = ['Lápis', 'Papel', 'Cola', 'Tesoura', 'Tinta'];
+  final List<String> areas = [
+    'Alfabetização',
+    'Lógica',
+    'Coordenação Motora',
+    'Socialização',
+    'Raciocínio'
+  ];
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: screenWidth * 0.01,
         systemOverlayStyle: SystemUiOverlayStyle(
           statusBarColor: AppColors.primaryColor,
+          systemNavigationBarColor: AppColors.primaryColor,
         ),
         automaticallyImplyLeading: false,
       ),
       body: SafeArea(
-        child: Container(
-          child: Stepper(
-            currentStep: _index,
-            onStepCancel: () {
-              if (_index > 0) {
-                setState(() {
-                  _index -= 1;
-                });
-              }
-            },
-            onStepContinue: () {
-              if (_index < 1) { 
-                setState(() {
-                  _index += 1;
-                });
-              }
-            },
-            onStepTapped: (int index) {
-              setState(() {
-                _index = index;
-              });
-            },
-            steps: <Step>[
-              Step(
-                title: const Text('Materiais'),
-                content: Container(
-                  alignment: Alignment.centerLeft,
-                  child: const Text('Selecione os materiais que você possui em casa'),
+        child: Padding(
+          padding: EdgeInsets.all(screenWidth * 0.06),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Formulário de recomendação',
+                style: TextStyle(
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.primaryColor,
                 ),
               ),
-              const Step(
-                title: Text('Habilidades'),
-                content: Text('Selecione as habilidade que você deseja trabalhar'),
+              SizedBox(height: 10.0),
+              Text(
+                'O formulário de recomendação te ajuda a encontrar o jogo perfeito para o momento, considerando os materiais que você possui em casa e as habilidades que deseja trabalhar nos pequenos.',
+                style: TextStyle(fontSize: 16.0),
+              ),
+              SizedBox(height: 20.0),
+              Text(
+                'Selecione abaixo os materiais que você possui em casa:',
+                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: materials.length,
+                  itemBuilder: (context, index) {
+                    final material = materials[index];
+                    return CheckboxListTile(
+                      title: Text(material),
+                      value: selectedMaterials.contains(material),
+                      onChanged: (bool? value) {
+                        setState(() {
+                          if (value == true) {
+                            selectedMaterials.add(material);
+                          } else {
+                            selectedMaterials.remove(material);
+                          }
+                        });
+                      },
+                    );
+                  },
+                ),
+              ),
+              SizedBox(height: 20.0),
+              Text(
+                'Selecione as habilidades que deseja trabalhar e desenvolver:',
+                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: areas.length,
+                  itemBuilder: (context, index) {
+                    final area = areas[index];
+                    return CheckboxListTile(
+                      title: Text(area),
+                      value: selectedAreas.contains(area),
+                      onChanged: (bool? value) {
+                        setState(() {
+                          if (value == true) {
+                            selectedAreas.add(area);
+                          } else {
+                            selectedAreas.remove(area);
+                          }
+                        });
+                      },
+                    );
+                  },
+                ),
+              ),
+              SizedBox(height: 20.0),
+              // Centralizando o botão na horizontal
+              Align(
+                alignment: Alignment.center,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(AppColors.primaryColor),
+                    side: MaterialStateProperty.all(BorderSide(color: AppColors.secondaryColor, width: 2)),
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))),
+                  ),
+                  onPressed: () async {
+                    List<String> preferences = [...selectedMaterials, ...selectedAreas];
+
+                    var result = await jogoRecomendado(preferences);
+                    print(result);
+
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text('Respostas enviadas com sucesso'),
+                      backgroundColor: Colors.green,
+                    ));
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.all(12.0),
+                    child: Text(
+                      "Enviar Respostas",
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.normal,
+                        color: AppColors.secondaryColor,
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ],
           ),

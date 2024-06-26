@@ -34,6 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
         automaticallyImplyLeading: false,
       ),
       body: FutureBuilder(
+
         future: getUser(),
         builder: (context, AsyncSnapshot<dynamic> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -76,7 +77,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                     fontSize: 24.0,
                                     fontWeight: FontWeight.bold,
                                     color: AppColors.primaryColor,
-                                    
                                   ),
                                 ),
                                 Text(

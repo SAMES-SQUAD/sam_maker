@@ -36,6 +36,7 @@ class _MenuScreenState extends State<MenuScreen> {
         valueListenable: _pageIndexNotifier,
         builder: (context, currentIndex, child) {
           return NavigationBar(
+            backgroundColor: AppColors.secondaryColor,
             onDestinationSelected: (int index) {
               _pageIndexNotifier.value = index;
             },

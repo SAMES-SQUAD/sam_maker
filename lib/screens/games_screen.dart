@@ -27,6 +27,7 @@ class _GamesScreenState extends State<GamesScreen> {
     return await getAllGames();
   }
 
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
