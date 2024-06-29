@@ -18,6 +18,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   bool _isPasswordVisible = false;
+  bool _isConfirmPasswordVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -282,7 +283,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       child: TextFormField(
                         cursorColor: AppColors.primaryColor,
                         controller: _confirmPasswordController,
-                        obscureText: !_isPasswordVisible,
+                        obscureText: !_isConfirmPasswordVisible,
                         style: const TextStyle(
                             color: AppColors.primaryColor, fontSize: 18.0),
                         decoration: InputDecoration(
@@ -336,14 +337,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               vertical: 15.0, horizontal: 20.0),
                           suffixIcon: IconButton(
                             icon: Icon(
-                              _isPasswordVisible
+                              _isConfirmPasswordVisible
                                   ? Icons.visibility
                                   : Icons.visibility_off,
                               color: AppColors.primaryColor,
                             ),
                             onPressed: () {
                               setState(() {
-                                _isPasswordVisible = !_isPasswordVisible;
+                                _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
                               });
                             },
                           ),
