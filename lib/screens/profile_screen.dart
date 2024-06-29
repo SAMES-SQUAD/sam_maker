@@ -34,13 +34,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   void logoutUser(BuildContext context) async {
-    await logout(); 
+    await logout();
     Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
   }
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: screenWidth * 0.01,
@@ -82,12 +83,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         Spacer(),
                         IconButton(
-                          onPressed: () => {
-                            logout(),
-                             Navigator.pushReplacement(context,
+                          onPressed: () {
+                            logout();
+                            Navigator.pushReplacement(
+                              context,
                               MaterialPageRoute(builder: (context) {
-                            return const InitialScreen();
-                          }))
+                                return const InitialScreen();
+                              }),
+                            );
                           },
                           icon: Icon(Icons.logout),
                         ),
@@ -144,7 +147,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             isEditing = !isEditing;
           });
         },
-        child: Icon(isEditing ? Icons.save : Icons.edit, color: AppColors.secondaryColor,),
+        child: Icon(isEditing ? Icons.save : Icons.edit, color: AppColors.secondaryColor),
         backgroundColor: AppColors.primaryColor,
       ),
     );

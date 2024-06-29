@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 import 'package:sam_maker/firebase_options.dart';
 
 login(email, password) async {
@@ -61,6 +62,18 @@ registerInfo(uid, name, email) async {
   );
 }
 
+class UserNotifier extends ValueNotifier<Map<String, dynamic>> {
+  UserNotifier() : super({});
+
+  void updateUser(Map<String, dynamic> userData) {
+    value = userData;
+    notifyListeners();
+  }
+}
+
+final userNotifier = UserNotifier();
+
+
 // Função para obter as informações do usuário do Firestore.
 getUser() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -68,6 +81,7 @@ getUser() async {
 
   var checkUser = FirebaseAuth.instance.currentUser;
   var user = await db.collection('Users').doc(checkUser!.uid).get();
+  userNotifier.updateUser(user.data()!);
   return user;
 }
 
@@ -75,9 +89,7 @@ getUser() async {
 deleteUser() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FirebaseFirestore db = FirebaseFirestore.instance;
-
   var auth = FirebaseAuth.instance;
-
   await db.collection('Users').doc(auth.currentUser!.uid).delete();
   await auth.currentUser!.delete();
 }
@@ -90,6 +102,11 @@ editUser(name, email) async {
 
   // Define as novas informações do usuário no Firestore.
   await db.collection('Users').doc(user.currentUser!.uid).set({
+    'name': name,
+    'email': email,
+  });
+
+  userNotifier.updateUser({
     'name': name,
     'email': email,
   });
@@ -116,8 +133,6 @@ getAllGames() async {
       }
 
     }
-    // Retorna a lista de jogos.
-    // print(games);
     return games;
   } catch (e, stackTrace) {
     print('$e');
