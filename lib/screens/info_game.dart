@@ -18,16 +18,16 @@ class _InfoGameState extends State<InfoGame> {
 
   Color getBackgroundColor(String category) {
     switch (category) {
+      case 'Socialização':
+        return AppColors.redLight; // Exemplo de cor para a categoria 'Ação'
+      case 'Raciocínio Lógico':
+        return AppColors.blueLight; // Exemplo de cor para a categoria 'Aventura'
       case 'Alfabetização':
         return AppColors.greenLight; 
-      case 'Raciocínio lógico':
-        return AppColors.blueLight;
       case 'Coordenação Motora':
-        return AppColors.purpleLigt;
-      case 'Socialização':
-        return AppColors.redLight;
+        return AppColors.purpleLight;// Exemplo de cor para a categoria 'Estratégia'
       default:
-        return AppColors.secondaryColor; 
+        return AppColors.secondaryColor; // Cor padrão caso não haja correspondência
     }
   }
 
@@ -45,7 +45,7 @@ class _InfoGameState extends State<InfoGame> {
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data == null) {
-            return Center(child: Text('No game found with title: ${widget.game_title}'));
+            return Center(child: Text('Não encontramos nenhum jogo com este nome: ${widget.game_title}'));
           }
 
           var gameData = snapshot.data!;
@@ -53,6 +53,7 @@ class _InfoGameState extends State<InfoGame> {
           // Ordenar os passos pelo campo 'order'
           List<dynamic> sortedSteps = List.from(gameData['Steps']);
           sortedSteps.sort((a, b) => a['order'].compareTo(b['order']));
+          Color backgroundColor = getBackgroundColor(gameData['game_category'] ?? '');
 
           // Obtém a cor de fundo com base na categoria do jogo
           Color backgroundColor = getBackgroundColor(gameData['game_category'] ?? '');
