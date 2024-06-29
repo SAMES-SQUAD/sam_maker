@@ -82,6 +82,8 @@ class _FormScreenState extends State<FormScreen> {
                           }
                         });
                       },
+                      activeColor: AppColors.primaryColor, 
+                      checkColor: Colors.white, 
                     );
                   },
                 ),
@@ -108,6 +110,8 @@ class _FormScreenState extends State<FormScreen> {
                           }
                         });
                       },
+                      activeColor: AppColors.primaryColor, 
+                      checkColor: Colors.white, 
                     );
                   },
                 ),
@@ -117,19 +121,25 @@ class _FormScreenState extends State<FormScreen> {
                 alignment: Alignment.center,
                 child: ElevatedButton(
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(AppColors.primaryColor),
-                    side: MaterialStateProperty.all(BorderSide(color: AppColors.secondaryColor, width: 2)),
-                    shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))),
+                    backgroundColor:
+                        MaterialStateProperty.all(AppColors.primaryColor),
+                    side: MaterialStateProperty.all(
+                        BorderSide(color: AppColors.secondaryColor, width: 2)),
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30))),
                   ),
                   onPressed: () async {
-                    List<String> preferences = [...selectedMaterials, ...selectedAreas];
+                    List<String> preferences = [
+                      ...selectedMaterials,
+                      ...selectedAreas
+                    ];
                     var result = await jogoRecomendado(preferences);
                     print(result);
 
                     setState(() {
-                        selectedMaterials.clear();
-                        selectedAreas.clear();
-                      });
+                      selectedMaterials.clear();
+                      selectedAreas.clear();
+                    });
 
                     widget.onGamesRecommended(result);
                     widget.pageIndexNotifier.value = 0;
