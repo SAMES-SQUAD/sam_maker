@@ -16,6 +16,21 @@ class _InfoGameState extends State<InfoGame> {
     return await getStepsByGame(widget.game_title);
   }
 
+  Color getBackgroundColor(String category) {
+    switch (category) {
+      case 'Socialização':
+        return AppColors.redLight; // Exemplo de cor para a categoria 'Ação'
+      case 'Raciocínio Lógico':
+        return AppColors.blueLight; // Exemplo de cor para a categoria 'Aventura'
+      case 'Alfabetização':
+        return AppColors.greenLight; 
+      case 'Coordenação Motora':
+        return AppColors.purpleLight;// Exemplo de cor para a categoria 'Estratégia'
+      default:
+        return AppColors.secondaryColor; // Cor padrão caso não haja correspondência
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -30,7 +45,7 @@ class _InfoGameState extends State<InfoGame> {
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data == null) {
-            return Center(child: Text('No game found with title: ${widget.game_title}'));
+            return Center(child: Text('Não encontramos nenhum jogo com este nome: ${widget.game_title}'));
           }
 
           var gameData = snapshot.data!;
@@ -38,6 +53,7 @@ class _InfoGameState extends State<InfoGame> {
           // Ordenar os passos pelo campo 'order'
           List<dynamic> sortedSteps = List.from(gameData['Steps']);
           sortedSteps.sort((a, b) => a['order'].compareTo(b['order']));
+          Color backgroundColor = getBackgroundColor(gameData['game_category'] ?? '');
 
           return SafeArea(
             child: Container(
@@ -128,11 +144,13 @@ class _InfoGameState extends State<InfoGame> {
                       ),
                       Expanded(
                         child: Container(
-                          decoration: const BoxDecoration(
-                              color: AppColors.redLight,
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(10),
-                                  bottomRight: Radius.circular(10))),
+                          decoration: BoxDecoration(
+                            color: backgroundColor, // Define a cor de fundo dinamicamente
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(10),
+                            ),
+                          ),
                           child: SingleChildScrollView(
                             padding: const EdgeInsets.all(16.0),
                             child: Column(
