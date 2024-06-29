@@ -6,8 +6,9 @@ import 'package:sam_maker/utils/colors.dart';
 
 class HomeScreen extends StatefulWidget {
   final ValueNotifier<int> pageIndexNotifier;
+  final List<Map<String, dynamic>> recommendedGames;
 
-  HomeScreen({Key? key, required this.pageIndexNotifier}) : super(key: key);
+  HomeScreen({Key? key, required this.pageIndexNotifier, required this.recommendedGames}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -15,10 +16,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   TextEditingController name = TextEditingController();
-
-  Future<List<Map<String, dynamic>>> _fetchAllGames() async {
-    return await getAllGames();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +31,6 @@ class _HomeScreenState extends State<HomeScreen> {
         automaticallyImplyLeading: false,
       ),
       body: FutureBuilder(
-
         future: getUser(),
         builder: (context, AsyncSnapshot<dynamic> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -124,26 +120,11 @@ class _HomeScreenState extends State<HomeScreen> {
                               ],
                             ),
                             Expanded(
-                              child: FutureBuilder<List<Map<String, dynamic>>>(
-                                future: _fetchAllGames(),
-                                builder: (context, snapshot) {
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return Center(
-                                        child: CircularProgressIndicator());
-                                  } else if (snapshot.hasError) {
-                                    return Center(
-                                        child: Text('Erro ao carregar os jogos'));
-                                  } else if (!snapshot.hasData ||
-                                      snapshot.data!.isEmpty) {
-                                    return Center(
-                                        child: Text('Nenhum jogo cadastrado'));
-                                  } else {
-                                    final games = snapshot.data!;
-                                    return ListView.builder(
-                                      itemCount: games.length,
+                              child: widget.recommendedGames.isNotEmpty
+                                  ? ListView.builder(
+                                      itemCount: widget.recommendedGames.length,
                                       itemBuilder: (context, index) {
-                                        final game = games[index];
+                                        final game = widget.recommendedGames[index];
                                         return Container(
                                           margin: const EdgeInsets.only(
                                               top: 8.0,
@@ -152,8 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               right: 16.0),
                                           decoration: BoxDecoration(
                                             color: AppColors.secondaryColor,
-                                            borderRadius:
-                                                BorderRadius.circular(15.0),
+                                            borderRadius: BorderRadius.circular(15.0),
                                             boxShadow: [
                                               BoxShadow(
                                                 color: AppColors.textDarkColor
@@ -169,40 +149,35 @@ class _HomeScreenState extends State<HomeScreen> {
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        InfoGame(game_title: game['game_title']!)),
+                                                  builder: (context) => InfoGame(
+                                                    game_title: game['game_title']!,
+                                                  ),
+                                                ),
                                               );
                                             },
                                             child: Row(
                                               children: [
                                                 Container(
-                                                  padding: const EdgeInsets.all(
-                                                      16.0),
+                                                  padding: const EdgeInsets.all(16.0),
                                                   child: const Icon(
                                                     Icons.book,
                                                     size: 50.0,
-                                                    color:
-                                                        AppColors.primaryColor,
+                                                    color: AppColors.primaryColor,
                                                   ),
                                                 ),
                                                 Expanded(
                                                   child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
                                                       Padding(
                                                         padding:
-                                                            const EdgeInsets
-                                                                .symmetric(
+                                                            const EdgeInsets.symmetric(
                                                                 vertical: 2.0),
                                                         child: Text(
                                                           game['game_title']!,
-                                                          style:
-                                                              const TextStyle(
+                                                          style: const TextStyle(
                                                             fontSize: 20.0,
-                                                            color: AppColors
-                                                                .textDarkColor,
+                                                            color: AppColors.textDarkColor,
                                                           ),
                                                         ),
                                                       ),
@@ -211,23 +186,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             'Sem descrição',
                                                         style: const TextStyle(
                                                           fontSize: 16.0,
-                                                          fontWeight:
-                                                              FontWeight.w300,
-                                                          color: AppColors
-                                                              .textDarkColor,
+                                                          fontWeight: FontWeight.w300,
+                                                          color: AppColors.textDarkColor,
                                                         ),
                                                       ),
                                                     ],
                                                   ),
                                                 ),
                                                 Container(
-                                                  padding: const EdgeInsets.all(
-                                                      16.0),
+                                                  padding: const EdgeInsets.all(16.0),
                                                   child: const Icon(
                                                     Icons.play_circle,
                                                     size: 50.0,
-                                                    color:
-                                                        AppColors.primaryColor,
+                                                    color: AppColors.primaryColor,
                                                   ),
                                                 ),
                                               ],
@@ -235,10 +206,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                         );
                                       },
-                                    );
-                                  }
-                                },
-                              ),
+                                    )
+                                  : const Center(
+                                      child: Text('Nenhum jogo recomendado'),
+                                    ),
                             ),
                           ],
                         ),
