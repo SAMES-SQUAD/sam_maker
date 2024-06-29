@@ -21,7 +21,14 @@ class _FormScreenState extends State<FormScreen> {
   List<String> selectedMaterials = [];
   List<String> selectedAreas = [];
 
-  final List<String> materials = ['Lápis', 'Papel', 'Cola', 'Tesoura', 'Tinta'];
+  final List<String> materials = [
+    'Lápis', 
+    'Papel', 
+    'Cola', 
+    'Tesoura', 
+    'Tinta'
+  ];
+  
   final List<String> areas = [
     'Alfabetização',
     'Coordenação Motora',
