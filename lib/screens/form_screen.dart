@@ -4,25 +4,29 @@ import 'package:sam_maker/services/database_service.dart';
 import 'package:sam_maker/utils/colors.dart';
 
 class FormScreen extends StatefulWidget {
-  const FormScreen({Key? key}) : super(key: key);
+  final ValueNotifier<int> pageIndexNotifier;
+  final Function(List<Map<String, dynamic>>) onGamesRecommended;
+
+  const FormScreen({
+    Key? key,
+    required this.pageIndexNotifier,
+    required this.onGamesRecommended,
+  }) : super(key: key);
 
   @override
   State<FormScreen> createState() => _FormScreenState();
 }
 
 class _FormScreenState extends State<FormScreen> {
-  // Lista para armazenar os materiais selecionados pelo usuário
   List<String> selectedMaterials = [];
   List<String> selectedAreas = [];
 
-  // Listas de opções de materiais e áreas
   final List<String> materials = ['Lápis', 'Papel', 'Cola', 'Tesoura', 'Tinta'];
   final List<String> areas = [
     'Alfabetização',
-    'Lógica',
     'Coordenação Motora',
     'Socialização',
-    'Raciocínio'
+    'Raciocínio Lógico'
   ];
 
   @override
@@ -109,7 +113,6 @@ class _FormScreenState extends State<FormScreen> {
                 ),
               ),
               SizedBox(height: 20.0),
-              // Centralizando o botão na horizontal
               Align(
                 alignment: Alignment.center,
                 child: ElevatedButton(
@@ -120,14 +123,16 @@ class _FormScreenState extends State<FormScreen> {
                   ),
                   onPressed: () async {
                     List<String> preferences = [...selectedMaterials, ...selectedAreas];
-
                     var result = await jogoRecomendado(preferences);
                     print(result);
 
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text('Respostas enviadas com sucesso'),
-                      backgroundColor: Colors.green,
-                    ));
+                    setState(() {
+                        selectedMaterials.clear();
+                        selectedAreas.clear();
+                      });
+
+                    widget.onGamesRecommended(result);
+                    widget.pageIndexNotifier.value = 0;
                   },
                   child: Padding(
                     padding: EdgeInsets.all(12.0),
