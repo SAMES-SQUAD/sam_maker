@@ -16,6 +16,21 @@ class _InfoGameState extends State<InfoGame> {
     return await getStepsByGame(widget.game_title);
   }
 
+  Color getBackgroundColor(String category) {
+    switch (category) {
+      case 'Alfabetização':
+        return AppColors.greenLight; 
+      case 'Raciocínio lógico':
+        return AppColors.blueLight;
+      case 'Coordenação Motora':
+        return AppColors.purpleLigt;
+      case 'Socialização':
+        return AppColors.redLight;
+      default:
+        return AppColors.secondaryColor; 
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -39,6 +54,9 @@ class _InfoGameState extends State<InfoGame> {
           List<dynamic> sortedSteps = List.from(gameData['Steps']);
           sortedSteps.sort((a, b) => a['order'].compareTo(b['order']));
 
+          // Obtém a cor de fundo com base na categoria do jogo
+          Color backgroundColor = getBackgroundColor(gameData['game_category'] ?? '');
+
           return SafeArea(
             child: Container(
               padding: EdgeInsets.all(screenWidth * 0.06),
@@ -58,9 +76,10 @@ class _InfoGameState extends State<InfoGame> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Container(
-                  decoration: const BoxDecoration(
-                      color: AppColors.secondaryColor,
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  decoration: BoxDecoration(
+                    color: AppColors.secondaryColor,
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -88,8 +107,9 @@ class _InfoGameState extends State<InfoGame> {
                               child: Text(
                                 gameData['game_title'] ?? "Jogo sem nome",
                                 style: TextStyle(
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold),
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                             Wrap(
@@ -128,11 +148,13 @@ class _InfoGameState extends State<InfoGame> {
                       ),
                       Expanded(
                         child: Container(
-                          decoration: const BoxDecoration(
-                              color: AppColors.redLight,
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(10),
-                                  bottomRight: Radius.circular(10))),
+                          decoration: BoxDecoration(
+                            color: backgroundColor, // Define a cor de fundo dinamicamente
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(10),
+                            ),
+                          ),
                           child: SingleChildScrollView(
                             padding: const EdgeInsets.all(16.0),
                             child: Column(
@@ -165,8 +187,9 @@ class _InfoGameState extends State<InfoGame> {
                                               Text(
                                                 step['step_description'] ?? "",
                                                 style: TextStyle(
-                                                    color: AppColors.textDarkColor,
-                                                    fontSize: 18.0),
+                                                  color: AppColors.textDarkColor,
+                                                  fontSize: 18.0,
+                                                ),
                                               ),
                                             ],
                                           ),

@@ -7,14 +7,15 @@ import 'package:sam_maker/services/database_service.dart';
 import 'package:sam_maker/utils/colors.dart';
 
 class MenuScreen extends StatefulWidget {
-  const MenuScreen({super.key});
-  
+  const MenuScreen({Key? key}) : super(key: key);
+
   @override
   State<MenuScreen> createState() => _MenuScreenState();
 }
 
 class _MenuScreenState extends State<MenuScreen> {
   final ValueNotifier<int> _pageIndexNotifier = ValueNotifier<int>(0);
+  List<Map<String, dynamic>> recommendedGames = [];
 
   @override
   void dispose() {
@@ -25,9 +26,19 @@ class _MenuScreenState extends State<MenuScreen> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> _pages = [
-      HomeScreen(pageIndexNotifier: _pageIndexNotifier),
+      HomeScreen(
+        pageIndexNotifier: _pageIndexNotifier,
+        recommendedGames: recommendedGames,
+      ),
       const GamesScreen(),
-      const FormScreen(),
+      FormScreen(
+        pageIndexNotifier: _pageIndexNotifier,
+        onGamesRecommended: (games) {
+          setState(() {
+            recommendedGames = games;
+          });
+        },
+      ),
       const ProfileScreen(),
     ];
 
