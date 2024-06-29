@@ -28,14 +28,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
       SnackBar(
         content: Text('Edição realizada com sucesso!'),
         duration: Duration(seconds: 2),
+        backgroundColor: Colors.green,
       ),
     );
   }
 
   void logoutUser(BuildContext context) async {
-    await logout(); // Chama a função de logout do Firebase
+    await logout(); 
     Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
-    // Navega para a tela de login e remove todas as rotas anteriores
   }
 
   @override
@@ -137,9 +137,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           if (isEditing) {
-            // Save the updated information
             await editUser(nameController.text, emailController.text);
-            showSuccessSnackbar(context); // Mostra o snackbar de sucesso
+            showSuccessSnackbar(context);
           }
           setState(() {
             isEditing = !isEditing;

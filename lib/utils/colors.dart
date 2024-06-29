@@ -6,4 +6,7 @@ class AppColors {
   static const Color textDarkColor = Color.fromRGBO(62, 54, 54, 1);
   static const Color red = Color.fromRGBO(255, 87, 87, 1);
   static const Color redLight = Color.fromRGBO(248, 98, 98, 1);
+  static const Color blueLight = Color.fromRGBO(30, 162, 239, 1);
+  static const Color greenLight= Color.fromRGBO(96, 186, 57, 1);
+  static const Color purpleLight= Color.fromRGBO(153, 101, 255, 1);
 }
