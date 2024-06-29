@@ -55,6 +55,9 @@ class _InfoGameState extends State<InfoGame> {
           sortedSteps.sort((a, b) => a['order'].compareTo(b['order']));
           Color backgroundColor = getBackgroundColor(gameData['game_category'] ?? '');
 
+          // Obtém a cor de fundo com base na categoria do jogo
+          Color backgroundColor = getBackgroundColor(gameData['game_category'] ?? '');
+
           return SafeArea(
             child: Container(
               padding: EdgeInsets.all(screenWidth * 0.06),
@@ -74,9 +77,10 @@ class _InfoGameState extends State<InfoGame> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Container(
-                  decoration: const BoxDecoration(
-                      color: AppColors.secondaryColor,
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  decoration: BoxDecoration(
+                    color: AppColors.secondaryColor,
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -104,8 +108,9 @@ class _InfoGameState extends State<InfoGame> {
                               child: Text(
                                 gameData['game_title'] ?? "Jogo sem nome",
                                 style: TextStyle(
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold),
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                             Wrap(
@@ -183,8 +188,9 @@ class _InfoGameState extends State<InfoGame> {
                                               Text(
                                                 step['step_description'] ?? "",
                                                 style: TextStyle(
-                                                    color: AppColors.textDarkColor,
-                                                    fontSize: 18.0),
+                                                  color: AppColors.textDarkColor,
+                                                  fontSize: 18.0,
+                                                ),
                                               ),
                                             ],
                                           ),
