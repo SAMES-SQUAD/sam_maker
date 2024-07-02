@@ -66,26 +66,29 @@ class _FormScreenState extends State<FormScreen> {
                 style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
               ),
               Expanded(
-                child: ListView.builder(
-                  itemCount: materials.length,
-                  itemBuilder: (context, index) {
-                    final material = materials[index];
-                    return CheckboxListTile(
-                      title: Text(material),
-                      value: selectedMaterials.contains(material),
-                      onChanged: (bool? value) {
-                        setState(() {
-                          if (value == true) {
-                            selectedMaterials.add(material);
-                          } else {
-                            selectedMaterials.remove(material);
-                          }
-                        });
-                      },
-                      activeColor: AppColors.primaryColor, 
-                      checkColor: Colors.white, 
-                    );
-                  },
+                child: Scrollbar(
+                  thumbVisibility: true, // Always show the scrollbar
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: materials.map((material) {
+                        return CheckboxListTile(
+                          title: Text(material),
+                          value: selectedMaterials.contains(material),
+                          onChanged: (bool? value) {
+                            setState(() {
+                              if (value == true) {
+                                selectedMaterials.add(material);
+                              } else {
+                                selectedMaterials.remove(material);
+                              }
+                            });
+                          },
+                          activeColor: AppColors.primaryColor,
+                          checkColor: Colors.white,
+                        );
+                      }).toList(),
+                    ),
+                  ),
                 ),
               ),
               SizedBox(height: 20.0),
@@ -94,26 +97,29 @@ class _FormScreenState extends State<FormScreen> {
                 style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
               ),
               Expanded(
-                child: ListView.builder(
-                  itemCount: areas.length,
-                  itemBuilder: (context, index) {
-                    final area = areas[index];
-                    return CheckboxListTile(
-                      title: Text(area),
-                      value: selectedAreas.contains(area),
-                      onChanged: (bool? value) {
-                        setState(() {
-                          if (value == true) {
-                            selectedAreas.add(area);
-                          } else {
-                            selectedAreas.remove(area);
-                          }
-                        });
-                      },
-                      activeColor: AppColors.primaryColor, 
-                      checkColor: Colors.white, 
-                    );
-                  },
+                child: Scrollbar(
+                  thumbVisibility: true, // Always show the scrollbar
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: areas.map((area) {
+                        return CheckboxListTile(
+                          title: Text(area),
+                          value: selectedAreas.contains(area),
+                          onChanged: (bool? value) {
+                            setState(() {
+                              if (value == true) {
+                                selectedAreas.add(area);
+                              } else {
+                                selectedAreas.remove(area);
+                              }
+                            });
+                          },
+                          activeColor: AppColors.primaryColor,
+                          checkColor: Colors.white,
+                        );
+                      }).toList(),
+                    ),
+                  ),
                 ),
               ),
               SizedBox(height: 20.0),
