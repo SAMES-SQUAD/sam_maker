@@ -218,11 +218,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                     },
                                   )
                                 : const Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text("Nenhum jogo encontrado."),
-                                      Text("Responda ao formulário para obter recomendações!"),
+                                      Text(
+                                          "Responda ao formulário para obter recomendações!"),
                                     ],
                                   ),
                           ),
