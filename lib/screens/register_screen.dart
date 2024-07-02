@@ -13,6 +13,7 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   bool isLoading = false;
+  final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -33,17 +34,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
         backgroundColor: AppColors.secondaryColor,
         appBar: AppBar(
           backgroundColor: AppColors.secondaryColor,
-        systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: AppColors.primaryColor,
-          systemNavigationBarColor:  AppColors.primaryColor
+          systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarColor: AppColors.primaryColor,
+            systemNavigationBarColor: AppColors.primaryColor,
+          ),
         ),
-      ),
         body: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              //Text
+              // Text
               Container(
                 alignment: Alignment.center,
                 margin: const EdgeInsets.only(bottom: 25.0),
@@ -57,9 +58,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
               ),
 
-              //Inputs
+              // Inputs
               Form(
-                // key: _loginFormKey,
+                key: _formKey,
                 child: Column(
                   children: [
                     Container(
@@ -68,7 +69,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         cursorColor: AppColors.primaryColor,
                         controller: _nameController,
                         style: const TextStyle(
-                            color: AppColors.primaryColor, fontSize: 18.0),
+                          color: AppColors.primaryColor,
+                          fontSize: 18.0,
+                        ),
                         decoration: const InputDecoration(
                           label: Text(
                             'Nome de usuário',
@@ -78,8 +81,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                           enabledBorder: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(30.0)),
+                            borderRadius: BorderRadius.all(Radius.circular(30.0)),
                             borderSide: BorderSide(
                               color: AppColors.primaryColor,
                               style: BorderStyle.solid,
@@ -87,8 +89,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(30.0)),
+                            borderRadius: BorderRadius.all(Radius.circular(30.0)),
                             borderSide: BorderSide(
                               color: AppColors.primaryColor,
                               style: BorderStyle.solid,
@@ -96,8 +97,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                           focusedErrorBorder: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(30.0)),
+                            borderRadius: BorderRadius.all(Radius.circular(30.0)),
                             borderSide: BorderSide(
                               color: Colors.red,
                               style: BorderStyle.solid,
@@ -105,8 +105,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                           errorBorder: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(30.0)),
+                            borderRadius: BorderRadius.all(Radius.circular(30.0)),
                             borderSide: BorderSide(
                               color: Colors.red,
                               style: BorderStyle.solid,
@@ -123,7 +122,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           if (value == null || value.isEmpty) {
                             return 'Por favor, insira seu nome';
                           }
-                          // Adicione validações adicionais de email se necessário
                           return null;
                         },
                       ),
@@ -136,7 +134,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         cursorColor: AppColors.primaryColor,
                         controller: _emailController,
                         style: const TextStyle(
-                            color: AppColors.primaryColor, fontSize: 18.0),
+                          color: AppColors.primaryColor,
+                          fontSize: 18.0,
+                        ),
                         decoration: const InputDecoration(
                           label: Text(
                             'Email',
@@ -146,8 +146,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                           enabledBorder: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(30.0)),
+                            borderRadius: BorderRadius.all(Radius.circular(30.0)),
                             borderSide: BorderSide(
                               color: AppColors.primaryColor,
                               style: BorderStyle.solid,
@@ -155,8 +154,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(30.0)),
+                            borderRadius: BorderRadius.all(Radius.circular(30.0)),
                             borderSide: BorderSide(
                               color: AppColors.primaryColor,
                               style: BorderStyle.solid,
@@ -164,8 +162,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                           focusedErrorBorder: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(30.0)),
+                            borderRadius: BorderRadius.all(Radius.circular(30.0)),
                             borderSide: BorderSide(
                               color: Colors.red,
                               style: BorderStyle.solid,
@@ -173,8 +170,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                           errorBorder: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(30.0)),
+                            borderRadius: BorderRadius.all(Radius.circular(30.0)),
                             borderSide: BorderSide(
                               color: Colors.red,
                               style: BorderStyle.solid,
@@ -191,7 +187,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           if (value == null || value.isEmpty) {
                             return 'Por favor, insira seu email';
                           }
-                          // Adicione validações adicionais de email se necessário
                           return null;
                         },
                       ),
@@ -204,7 +199,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         controller: _passwordController,
                         obscureText: !_isPasswordVisible,
                         style: const TextStyle(
-                            color: AppColors.primaryColor, fontSize: 18.0),
+                          color: AppColors.primaryColor,
+                          fontSize: 18.0,
+                        ),
                         decoration: InputDecoration(
                           label: const Text(
                             'Senha',
@@ -214,8 +211,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                           enabledBorder: const OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(30.0)),
+                            borderRadius: BorderRadius.all(Radius.circular(30.0)),
                             borderSide: BorderSide(
                               color: AppColors.primaryColor,
                               style: BorderStyle.solid,
@@ -223,8 +219,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                           focusedBorder: const OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(30.0)),
+                            borderRadius: BorderRadius.all(Radius.circular(30.0)),
                             borderSide: BorderSide(
                               color: AppColors.primaryColor,
                               style: BorderStyle.solid,
@@ -232,8 +227,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                           focusedErrorBorder: const OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(30.0)),
+                            borderRadius: BorderRadius.all(Radius.circular(30.0)),
                             borderSide: BorderSide(
                               color: Colors.red,
                               style: BorderStyle.solid,
@@ -241,8 +235,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                           errorBorder: const OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(30.0)),
+                            borderRadius: BorderRadius.all(Radius.circular(30.0)),
                             borderSide: BorderSide(
                               color: Colors.red,
                               style: BorderStyle.solid,
@@ -285,18 +278,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         controller: _confirmPasswordController,
                         obscureText: !_isConfirmPasswordVisible,
                         style: const TextStyle(
-                            color: AppColors.primaryColor, fontSize: 18.0),
+                          color: AppColors.primaryColor,
+                          fontSize: 18.0,
+                        ),
                         decoration: InputDecoration(
                           label: const Text(
-                            'Confimar senha',
+                            'Confirmar senha',
                             style: TextStyle(
                               color: AppColors.textDarkColor,
                               fontSize: 18.0,
                             ),
                           ),
                           enabledBorder: const OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(30.0)),
+                            borderRadius: BorderRadius.all(Radius.circular(30.0)),
                             borderSide: BorderSide(
                               color: AppColors.primaryColor,
                               style: BorderStyle.solid,
@@ -304,8 +298,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                           focusedBorder: const OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(30.0)),
+                            borderRadius: BorderRadius.all(Radius.circular(30.0)),
                             borderSide: BorderSide(
                               color: AppColors.primaryColor,
                               style: BorderStyle.solid,
@@ -313,8 +306,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                           focusedErrorBorder: const OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(30.0)),
+                            borderRadius: BorderRadius.all(Radius.circular(30.0)),
                             borderSide: BorderSide(
                               color: Colors.red,
                               style: BorderStyle.solid,
@@ -322,8 +314,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                           errorBorder: const OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(30.0)),
+                            borderRadius: BorderRadius.all(Radius.circular(30.0)),
                             borderSide: BorderSide(
                               color: Colors.red,
                               style: BorderStyle.solid,
@@ -333,7 +324,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           errorStyle: const TextStyle(
                             color: Colors.red,
                           ),
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                               vertical: 15.0, horizontal: 20.0),
                           suffixIcon: IconButton(
                             icon: Icon(
@@ -349,13 +340,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             },
                           ),
                         ),
-
-                        // ajeitar essa verificação pra comparar se a senha ta igual
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Por favor, insira sua senha';
+                            return 'Por favor, confirme sua senha';
                           }
                           if (value != _passwordController.text) {
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: const Text('As senhas não coincidem'),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                            });
                             return 'As senhas não coincidem';
                           }
                           return null;
@@ -368,84 +365,67 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
               // Button
               Container(
-                margin: const EdgeInsets.only(top: 25.0),
+                margin: const EdgeInsets.only(top: 35.0),
+                width: screenWidth * 0.8,
+                height: screenHeight * 0.075,
                 child: ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
-                      AppColors.primaryColor,
-                    ),
-                    side: MaterialStateProperty.all(
-                      const BorderSide(
-                        color: AppColors.secondaryColor,
-                        width: 2,
-                      ),
-                    ),
-                    shape: MaterialStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                    ),
-                  ),
                   onPressed: () async {
+                    if (_formKey.currentState?.validate() ?? false) {
+                      setState(() {
+                        isLoading = true;
+                      });
 
-                    register(
-                      _emailController.text,
-                      _passwordController.text,
-                      _nameController.text,
-                    );
+                      // Chama a função de registro
+                      await register(
+                        _emailController.text,
+                        _passwordController.text,
+                        _nameController.text,
+                      );
 
-                    // Define o que acontece quando o botão é pressionado
-                    setState(() {
-                      // Atualiza o estado da tela
-                      isLoading = true; // Define isLoading como true
-                    });
-
-                    // Navega para a tela de login após o registro
-                    Navigator.push(context,
-                      MaterialPageRoute(
-                        builder: (context) => LoginScreen(),
-                      ),
-                    );
-
-                    // Exibe uma mensagem após o registro
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text('Usuário cadastrado com sucesso'),
-                      backgroundColor: Colors.green,
-                    ));
-
-                  },
-
-                  child: Container(
-                    width: screenWidth * 0.4,
-                    alignment: Alignment.center,
-                    child: const Padding(
-                      padding: EdgeInsets.all(12.0),
-                      child: Text(
-                        "Cadastrar",
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.normal,
-                          color: AppColors.secondaryColor,
+                      // Navega para a tela de login após o registro
+                      Navigator.push(context,
+                        MaterialPageRoute(
+                          builder: (context) => LoginScreen(),
                         ),
+                      );
+
+                      // Exibe uma mensagem após o registro
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text('Usuário cadastrado com sucesso'),
+                        backgroundColor: Colors.green,
+                      ));
+
+                      setState(() {
+                        isLoading = false;
+                      });
+                    }
+                  },
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        AppColors.primaryColor),
+                    foregroundColor:
+                        MaterialStateProperty.all<Color>(Colors.white),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(30.0)),
                       ),
                     ),
                   ),
+                  child: isLoading
+                      ? const CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              AppColors.primaryColor),
+                        )
+                      : const Text(
+                          'Cadastrar',
+                          style: TextStyle(
+                            fontSize: 18.0,
+                          ),
+                        ),
                 ),
               ),
             ],
           ),
-        ),
-        floatingActionButton: Stack(
-          children: [
-            FloatingActionButton(
-              onPressed: () {
-                // Implemente a funcionalidade do botão flutuante aqui
-              },
-              elevation: 0,
-              child: Image.asset('lib/utils/assets/images/mini_logo_sam.png'),
-              backgroundColor: Colors.transparent,
-            ),
-          ],
         ),
       ),
     );
